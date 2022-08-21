@@ -3,6 +3,9 @@ Rails.application.routes.draw do
 
   namespace :control_panel, path: 'control_panel' do
     get '/channels', to: 'channels#show', as: 'control_panel'
+    namespace :channels do
+      post '/suspension', to: 'suspensions#create'
+    end
   end
 
   get '/channels/channel_id=:channel_id', to: 'channels#show', as: 'show_channel'
