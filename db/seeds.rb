@@ -5,3 +5,6 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+
+Channel.create(name: 'Luke', description: 'this is description', slug: 'luke', organisation_id: 1)
+# Organisation.create(id: 2, name: 'Jesicha', slug: 'jesicha')
