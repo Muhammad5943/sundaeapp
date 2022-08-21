@@ -7,13 +7,13 @@ describe ChannelsController, type: :controller do
 
     context '#show' do
         it 'should return a successful response' do
-            get :show, params: { id: channel.id }
+            get :show, params: { channel_id: channel.id }
             expect(response).to have_http_status(:ok)
         end
     end
 
     context '#edit' do
-        before { get :edit, params: { id: channel.id } }
+        before { get :edit, params: { channel_id: channel.id } }
 
         it 'should return a successful response' do
             expect(response).to have_http_status(:ok)
@@ -32,7 +32,7 @@ describe ChannelsController, type: :controller do
             }
         end
 
-        before { patch :update, params: { id: channel.id, channel: valid_params } }
+        before { patch :update, params: { channel_id: channel.id, channel: valid_params } }
 
         it 'should update the channel' do
             expect(channel.reload.name).to eq 'Updated Name'

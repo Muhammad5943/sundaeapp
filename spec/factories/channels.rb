@@ -2,7 +2,7 @@ FactoryBot.define do
   factory :channel do
     name {"MyText"}
     description {"MyText"}
-    slug {"MyText"}
-    organisation {1}
+    slug {"my-text"}
+    organisation
   end
 end
