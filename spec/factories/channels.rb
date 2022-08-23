@@ -6,7 +6,7 @@ FactoryBot.define do
     slug { "MyText" }
     created_at { "2022-08-23 05:30:13" }
     updated_at { "2022-08-23 05:30:13" }
-    organisation
+    site
     suspended_at { "2022-08-23 05:30:13" }
   end
 end
