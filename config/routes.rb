@@ -12,4 +12,6 @@ Rails.application.routes.draw do
   get '/channels/channel_id=:channel_id', to: 'channels#show', as: 'show_channel'
   get '/channels/channel_id=:channel_id/edit', to: 'channels#edit', as: 'edit_channel'
   patch '/channels/channel_id=:channel_id/update', to: 'channels#update', as: 'channel'
+
+  root 'static#home_page'
 end
