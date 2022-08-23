@@ -1,7 +1,6 @@
 Rails.application.routes.draw do
   devise_for :users
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
-
   # Control Panel
   # ================================================================================================ #
   namespace :control_panel, path: 'control_panel' do
@@ -30,8 +29,12 @@ Rails.application.routes.draw do
   
   #Sites Setup
   # ================================================================================================ #
-  namespace :sites_setup, path: 'sites/sites=:site_id' do
+  namespace :sites_setup, path: 'sites/site=:site_id' do
     get '/edit', to: 'details#edit'
+    namespace :accounts, path: 'account' do
+      get '/create', to: 'users#create'
+      post '/new', to: 'users#new'
+    end
   end
   # ================================================================================================ #
 

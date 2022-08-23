@@ -1,0 +1,2 @@
+module SitesSetup::UsersHelper
+end
