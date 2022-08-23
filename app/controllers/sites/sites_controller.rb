@@ -6,7 +6,7 @@ class SitesController < ApplicationController
         @organisation = @site.build_organisation(name: 'TestOrg')
         if @site.save
             flash[:notice] = "#{@site.name} has been created."
-            redirect_to root_path
+            redirect_to sites_setup_edit(@site)
         else
             redirect_to root_path
         end

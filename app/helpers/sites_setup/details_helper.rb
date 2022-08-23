@@ -1,0 +1,2 @@
+module SitesSetup::DetailsHelper
+end
