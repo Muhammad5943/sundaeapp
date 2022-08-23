@@ -1,10 +1,44 @@
 <div class="container mx-auto">
-    <h1 class="text-lg font-bold">
-        <%= @channel.name %>
-    </h1>
+  <h1 class="text-lg font-bold">
+    <%= @channel.name %>
+  </h1>
+  <h4>
+    Organisation: <%= @channel.site.organisation.name %>
+  </h4>
 
-    <h4>
-        Organisation: <%= @channel.site.organisation.name %>
-    </h4>
-    <%= link_to 'Edit Channel', edit_channel_path(@channel), class: 'text-blue-500' %>
+
+  <div class="m-12">
+    <%= turbo_stream_from [current_user, @channel], :notification_subscriptions %>
+    <div id="notification_subscriptions"></div>
+  </div>
+
+  <%= link_to 'Edit Channel', edit_channel_path(@channel), class: 'text-blue-500' %>
+  <% if NotificationSubscription.user_has_active_subscription_for?(user: current_user, subscribeable: @channel) %>
+    <div>
+      You're Subscribed 🤩
+      <%= button_to "Unsubscribe", notification_subscriptions_path(subscribeable_id: @channel.id, subscribeable_type: @channel.class.name), method: :delete, class: 'btn' %>
+    </div>
+  <% else %>
+    <%= button_to "Subscribe", notification_subscriptions_path(subscribeable_id: @channel.id, subscribeable_type: @channel.class.name), method: :post, class: 'btn' %>
+  <% end %>
+
+  <% if @channel.videos.empty? %>
+    <div class="text-lg font-bold">
+      There are no videos for this channel (yet!).
+    </div>
+  <% else %>
+    <% @channel.videos.each do |video| %>
+      <div>
+        <img src="<%= video.thumbnail_url %>" style="max-width: 250px">
+        <br>
+        <div class="text-lg font-bold">
+          <%= video.title %>
+        </div>
+        <p>
+          <%= video.description %>
+        </p>
+      </div>
+    <% end %>
+  <% end %>
 </div>
+

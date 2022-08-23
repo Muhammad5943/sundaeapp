@@ -1,23 +1,39 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Sundaeapp</title>
+    <title>Sundaeclub</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <link rel="stylesheet" href="https://use.typekit.net/mlt3byj.css">
 
-    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%#= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
-    <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-</head>
+    <%#= javascript_pack_tag 'application' %>
+    <%= stylesheet_pack_tag 'application', media: 'all' %>
+    <%= yield :head %>
+    <%#= turbo_include_tags %>
+    <%#= stimulus_include_tags %>
+  </head>
 
-  <body>
+  <body class="bg-gray-50">
+    <div class="h-12 bg-white shadow flex justify-center" style="outline: 1px solid red;">
+      <div class="container flex" style="outline: 1px solid blue;">
+        <div class="flex-grow">
+          <% if current_user %>
+            <%= current_user.email %>
+          <% else %>
+            <%= link_to 'Sign In', new_session_path(:user) %>
+          <% end %>
+        </div>
+        <div class="flex-grow-0" id="test_count">
+          <%= current_user.notifications.unread.count if current_user %>
+        </div>
+      </div>
+    </div>
+
     <% flash.each do |type, msg| %>
       <div>
         <%= msg %>
       </div>
     <% end %>
-    
     <%= yield %>
   </body>
 </html>

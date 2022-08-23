@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_08_23_142634) do
+ActiveRecord::Schema.define(version: 2022_08_23_198457) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,7 +23,45 @@ ActiveRecord::Schema.define(version: 2022_08_23_142634) do
     t.datetime "updated_at", precision: 6, null: false
     t.datetime "suspended_at"
     t.bigint "site_id"
+    t.text "youtube_channel_id"
     t.index ["site_id"], name: "index_channels_on_site_id"
+  end
+
+  create_table "delayed_jobs", force: :cascade do |t|
+    t.integer "priority", default: 0, null: false
+    t.integer "attempts", default: 0, null: false
+    t.text "handler", null: false
+    t.text "last_error"
+    t.datetime "run_at"
+    t.datetime "locked_at"
+    t.datetime "failed_at"
+    t.string "locked_by"
+    t.string "queue"
+    t.datetime "created_at", precision: 6
+    t.datetime "updated_at", precision: 6
+    t.index ["priority", "run_at"], name: "delayed_jobs_priority"
+  end
+
+  create_table "notification_subscriptions", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.text "event_name"
+    t.string "subscribeable_type", null: false
+    t.bigint "subscribeable_id", null: false
+    t.boolean "active"
+    t.index ["subscribeable_type", "subscribeable_id"], name: "index_notification_subscriptions_on_subscribeable"
+    t.index ["user_id"], name: "index_notification_subscriptions_on_user_id"
+  end
+
+  create_table "notifications", force: :cascade do |t|
+    t.string "recipient_type", null: false
+    t.bigint "recipient_id", null: false
+    t.string "type", null: false
+    t.jsonb "params"
+    t.datetime "read_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["read_at"], name: "index_notifications_on_read_at"
+    t.index ["recipient_type", "recipient_id"], name: "index_notifications_on_recipient_type_and_recipient_id"
   end
 
   create_table "organisations", force: :cascade do |t|
@@ -67,7 +105,31 @@ ActiveRecord::Schema.define(version: 2022_08_23_142634) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  create_table "versions", force: :cascade do |t|
+    t.string "item_type", null: false
+    t.bigint "item_id", null: false
+    t.string "event", null: false
+    t.string "whodunnit"
+    t.text "object"
+    t.datetime "created_at"
+    t.text "object_changes"
+    t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
+  end
+
+  create_table "videos", force: :cascade do |t|
+    t.text "external_id"
+    t.text "title"
+    t.text "description"
+    t.text "thumbnail_url"
+    t.bigint "channel_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["channel_id"], name: "index_videos_on_channel_id"
+  end
+
   add_foreign_key "channels", "sites"
+  add_foreign_key "notification_subscriptions", "users"
   add_foreign_key "sites", "organisations"
   add_foreign_key "users", "organisations"
+  add_foreign_key "videos", "channels"
 end

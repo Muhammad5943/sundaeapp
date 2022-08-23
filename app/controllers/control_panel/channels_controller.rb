@@ -1,13 +1,14 @@
 class ControlPanel::ChannelsController < ControlPanel::BaseController
-    before_action :set_channel
-    
-    def show
-        authorize @channel
-    end
+  before_action :set_channel
 
-    private
+  def show
+    authorize @channel
+    @videos = @channel.videos.order("updated_at desc")
+  end
 
-    def set_channel
-        @channel = Channel.find(params[:channel_id])
-    end
+  private
+
+  def set_channel
+    @channel = Channel.find(params[:id])
+  end
 end
