@@ -1,0 +1,2 @@
+module ControlPanel::BaseHelper
+end
